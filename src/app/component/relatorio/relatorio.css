@@ -10,7 +10,7 @@
 .relatorio_titulos {
     display: flex;
     gap: 26rem;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 a {
@@ -19,7 +19,7 @@ a {
 }
 
 .ativo {
-    border-bottom: 2px solid rgb(43, 240, 12);
+    border-bottom: 2px solid #2486b4;
 }
 
 .relatorio_zone {
@@ -37,11 +37,6 @@ a {
     font-size: 26px;
 }
 
-
-
-
-
-
 .top_relatorio {
     height: 15%;
     background-color: rgb(255, 255, 255);
@@ -53,7 +48,12 @@ a {
 
 .top_relatorio_container {
     display: flex;
-    
+}
+
+.top_relatorio_container p{
+    font-size: 21px;
+    padding-right: 4px;
+    padding-left: 4px;
 }
 
 .top_relatorio_container div {
@@ -62,15 +62,24 @@ a {
     align-items: center;
 }
 
-.top_relatorio_container img {
+.calendario {
     width: 50px;
+    padding-left: 10px;
+}
+
+.top_relatorio_container input{
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    padding: 8px 12px;
 }
 
 .top_relatorio_container {
-    gap: 50px;
+    gap: 35px;
 }
 
 .button_relatorio {
+    position: relative;
     width: 96%;
     border: 2px solid black;
     border-radius: 5px;
@@ -100,9 +109,57 @@ a {
 }
 
 .pesquisar input {
-    width: 290px;
+    width: 310px;
+    height: 25px;
+    border-radius: 15px;
+    margin-top: 8px;
 }
 
 .icones {
     gap: 10px;
+}
+
+.icones2 img{
+    padding: 2px;
+    margin-right: 5px;
+    width: 40px;
+    height: 40px;
+}
+
+.icones li{
+    display: flex;
+    background-color: #00354C;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 6px;
+}
+
+.download{
+    width: 40%;
+    height: 40%;
+}
+
+.horario {
+    font-weight:lighter;
+    color: #343434;
+    font-size: 12px;
+}
+
+.arquivo{
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.divDots{
+    position: absolute;
+    right: 0.5%;
+    top: 18%;
+}
+
+.divDots img{
+    width: 20px;
+    height: 20px;
 }

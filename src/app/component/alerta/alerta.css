@@ -28,7 +28,7 @@ a {
 }
 
 .ativo {
-    border-bottom: 2px solid rgb(242, 0, 0);
+    border-bottom: 2px solid #2486b4;
 }
 
 .alerta_zone {
@@ -36,13 +36,12 @@ a {
     height: 525px;
     border: 2px solid  black;
     background-color: rgb(255, 255, 255);
+    border-radius: 3px;
 }
-
-
 
 .top_alert {
     height: 15%;
-    background-color: rgb(255, 255, 255);
+    background-color: #ffff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,7 +50,7 @@ a {
 
 .top_alert_container {
     display: flex;
-    
+    gap: 60px;
 }
 
 .top_alert_container div {
@@ -62,10 +61,32 @@ a {
 
 .top_alert_container img {
     width: 50px;
+    padding-left: 10px;
+    
 }
 
-.top_alert_container {
-    gap: 100px;
+.top_alert_container p{
+    font-size: 21px;
+    padding-right: 10px;
+    font-family:'Times New Roman', Times, serif;
+}
+
+.top_alert_container input{
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    padding: 8px 12px;
+}
+
+.top_alert_container select{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    padding: 8px 12px;
+    text-align: center;
+    font-weight: 600;
+    background-color: #00283A;
+    color: white;
 }
 
 .button_alert {
@@ -81,6 +102,13 @@ a {
     flex-direction: row;
     width: 100%;
     gap: 10px;
+    font-weight: 600;
+}
+
+.horario {
+    font-weight:lighter;
+    color: #343434;
+    font-size: 12px;
 }
 
 
@@ -95,4 +123,17 @@ a {
     align-items: center;
     padding-top: 8px;
     gap: 5px;
+}
+
+.sinoAlerta{
+    width: 40px;
+    height: 40px;
+    background-color: #00283A;
+    border-radius: 7px;
+}
+
+.sinoAlerta img{
+    width: 52%;
+    height: 52%;
+    padding: 0px;
 }
