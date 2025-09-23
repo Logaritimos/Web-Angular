@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Header } from '../header/header';
-import { Conteudo } from '../conteudo/conteudo';
-import {RouterLink} from '@angular/router';
+import { Estados } from '../../estados';
+
 
 @Component({
   selector: 'app-relatorio',
@@ -10,5 +9,9 @@ import {RouterLink} from '@angular/router';
   styleUrl: './relatorio.css'
 })
 export class Relatorio {
+  constructor(public estados: Estados) {}
 
+  AlterarEstados() {
+    this.estados.Alterar();  
+  }
 }

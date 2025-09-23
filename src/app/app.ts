@@ -1,14 +1,15 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Header } from "./component/header/header";
-import { Conteudo } from "./component/conteudo/conteudo";
+import { Principal } from './component/principal/principal';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Conteudo],
+  imports: [RouterOutlet, Principal],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   protected readonly title = signal('telaMensagem');
+
+  public estado = 'Alertas'
 }

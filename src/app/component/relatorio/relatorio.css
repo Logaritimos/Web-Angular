@@ -25,7 +25,9 @@ a {
 .relatorio_zone {
     width: 1000px;
     height: 525px;
-    border: 2px solid  black;
+    border-radius: 0px;
+  border: 1px solid  rgb(124, 124, 124);
+    border-radius: 7px;
     background-color: rgb(255, 255, 255);
 }
 
@@ -43,7 +45,8 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 2px solid black;
+    border-radius: 7px 7px 0px 0px;
+    border-bottom: 1px solid rgb(69, 69, 69);
 }
 
 .top_relatorio_container {
@@ -81,7 +84,7 @@ a {
 .button_relatorio {
     position: relative;
     width: 96%;
-    border: 2px solid black;
+    border: 1px solid black;
     border-radius: 5px;
     padding: 0px 10px;
 }
@@ -107,6 +110,11 @@ a {
     padding-top: 8px;
     gap: 5px;
 }
+
+.pesquisar {
+    position: relative;
+}
+
 
 .pesquisar input {
     width: 310px;
@@ -160,6 +168,14 @@ a {
 }
 
 .divDots img{
+    width: 20px;
+    height: 20px;
+}
+
+.pesquisa_img {
+    position: absolute;
+    right: 8px;
+    bottom: 6px;
     width: 20px;
     height: 20px;
 }

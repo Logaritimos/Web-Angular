@@ -8,19 +8,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;  
-    gap: 30px;
+    gap: 36px;
     padding-top: 100px;
 }
 
 
 .sidebar img {
     
-    width: 35px;
+    width: 33px;
    
 }
 
 li {
-    height: 60px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;

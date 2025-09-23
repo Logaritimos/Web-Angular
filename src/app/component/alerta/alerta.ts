@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Estados } from '../../estados';
 
 @Component({
   selector: 'app-alerta',
@@ -7,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrl: './alerta.css'
 })
 export class Alerta {
+  constructor(public estados: Estados) {
 
+  }
+
+  AlterarEstados() {
+    this.estados.Alterar()
+  }
 }

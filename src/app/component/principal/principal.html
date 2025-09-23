@@ -1,0 +1,12 @@
+
+<app-header></app-header>
+<app-conteudo></app-conteudo>
+
+
+
+<div [ngSwitch]="estados.estado">
+
+    <app-relatorio *ngSwitchCase="'ativo'"></app-relatorio>
+    <app-alerta  *ngSwitchCase="'inativo'"></app-alerta>
+
+</div>

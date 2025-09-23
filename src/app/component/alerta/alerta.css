@@ -1,3 +1,12 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+     font-family: 'Inter', sans-serif;
+}
+
+
 .alerta_container {
     width: 100vw;
     height: 100%;
@@ -34,9 +43,9 @@ a {
 .alerta_zone {
     width: 1000px;
     height: 525px;
-    border: 2px solid  black;
+    border: 1px solid  rgb(124, 124, 124);
     background-color: rgb(255, 255, 255);
-    border-radius: 3px;
+    border-radius: 7px;
 }
 
 .top_alert {
@@ -45,7 +54,8 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 2px solid black;
+    border-radius: 10px 10px 0px 0px;
+    border-bottom: 1px solid rgb(134, 134, 134);
 }
 
 .top_alert_container {
@@ -68,7 +78,7 @@ a {
 .top_alert_container p{
     font-size: 21px;
     padding-right: 10px;
-    font-family:'Times New Roman', Times, serif;
+
 }
 
 .top_alert_container input{
@@ -91,7 +101,7 @@ a {
 
 .button_alert {
     width: 98%;
-    border: 2px solid black;
+    border: 1px solid rgb(88, 88, 88);
     border-radius: 5px;
     padding: 0px 10px;
 }
@@ -104,6 +114,8 @@ a {
     gap: 10px;
     font-weight: 600;
 }
+
+
 
 .horario {
     font-weight:lighter;

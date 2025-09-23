@@ -5,7 +5,7 @@ header {
     text-align: left;
     font-size: 28px;
     font-weight: 700;
-    padding: 20px 0;
+    padding: 18.5px 0;
     
     color: #fff;
     background-color: #00283a;
@@ -13,8 +13,9 @@ header {
 }
 
 .Logo_img {
-    width: 175px;
+    width: 171px;
+    height: 23px;
     padding-left: 20px;
-    padding-bottom: 2px;
-    padding-top: 5px;
+    padding-bottom: 4px;
+    padding-top: 0px;
 }
