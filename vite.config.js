@@ -1,11 +1,11 @@
 import { defineConfig } from 'vite';
-import angular from 'vite-plugin-angular'; // Import the Angular plugin
+import angular from 'vite-plugin-angular';
 
 export default defineConfig({
-  plugins: [angular()], // Add the Angular plugin to the plugins array
+  plugins: [angular()],
   server: {
     port: 4200,
-    allowedHosts: ['logaritmo', '.duckdns.org:4200'], // Optional: Configure the development server port
+    host: true,
+    allowedHosts: ['all'] // Aceita qualquer host
   },
-  // Other Vite configuration options can be added here
 });
