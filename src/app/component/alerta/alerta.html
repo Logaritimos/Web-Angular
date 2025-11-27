@@ -17,16 +17,16 @@
             <div class="top_alert_container">
                 <div>
                     <p>Início</p>
-                    <input type="date">
+                    <input type="date" [(ngModel)]="dataInicio" (ngModelChange)="ListarAlertas(destino, dataInicio, dataFim)">
+                   
+                </div>
+                <div>
+                    <p>Fim</p> <img src="assets/calendario.png" alt="">
+                    <input type="date"  [(ngModel)]="dataFim" (ngModelChange)="ListarAlertas(destino, dataInicio, dataFim)">
                     <img src="assets/calendario.png" alt="">
                 </div>
                 <div>
-                    <p>Fim</p>
-                    <input type="date">
-                    <img src="assets/calendario.png" alt="">
-                </div>
-                <div>
-                    <select name="" id="">
+                    <select  [(ngModel)]="destino" name="" id="" (ngModelChange)="ListarAlertas(destino, dataInicio, dataFim)">
                         <option value="">Geral</option>
                         <option value="">Destino 1</option>
                         <option value="">Destino 2</option>
@@ -41,87 +41,14 @@
             </div>
         </div>
         <div class="alertas">
-            <div class="button_alert">
+            <div class="button_alert" *ngFor="let alerta of alertas">
                 <div class="button_alert_container">
                     <img src="assets/alerta.png" alt="">
                     <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p>Alerta! Redução na demanda por voos para o Rio de Janeiro. </p>
+                        <p class="horario">{{ alerta.dtHora | date:'dd/MM/yyyy HH:mm' }}</p>
+                        <p>{{ alerta.descricao }}</p>
                     </div>
                 </div>
              </div> 
-          <div class="button_alert">
-                <div class="button_alert_container">
-                    <img src="assets/alerta.png" alt="">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p>Alerta! Redução na demanda por voos para o Rio de Janeiro. </p>
-                    </div>
-            </div>
-    </div>
-    <div class="button_alert">
-                <div class="button_alert_container">
-                    <img src="assets/alerta.png" alt="">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p>Alerta! Redução na demanda por voos para o Rio de Janeiro. </p>
-                    </div>
-                </div>
-             </div> 
-             <div class="button_alert">
-                <div class="button_alert_container">
-                    <img src="assets/alerta.png" alt="">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p>Alerta! Redução na demanda por voos para o Rio de Janeiro. </p>
-                    </div>
-                </div>
-             </div> 
-             <div class="button_alert">
-                <div class="button_alert_container">
-                    <img src="assets/alerta.png" alt="">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p>Alerta! Redução na demanda por voos para o Rio de Janeiro. </p>
-                    </div>
-                </div>
-             </div> 
-             <div class="button_alert">
-                <div class="button_alert_container">
-                    <img src="assets/alerta.png" alt="">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p>Alerta! Redução na demanda por voos para o Rio de Janeiro. </p>
-                    </div>
-                </div>
-             </div> 
-             <div class="button_alert">
-                <div class="button_alert_container">
-                    <img src="assets/alerta.png" alt="">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p>Alerta! Redução na demanda por voos para o Rio de Janeiro. </p>
-                    </div>
-                </div>
-             </div> 
-             <div class="button_alert">
-                <div class="button_alert_container">
-                    <img src="assets/alerta.png" alt="">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p>Alerta! Redução na demanda por voos para o Rio de Janeiro. </p>
-                    </div>
-                </div>
-             </div> 
-
-             <div class="button_alert">
-                <div class="button_alert_container">
-                    <img src="assets/alerta.png" alt="">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p>Alerta! Redução na demanda por voos para o Rio de Janeiro. </p>
-                    </div>
-                </div>
-             </div> 
-     </div>
+  
 </div>

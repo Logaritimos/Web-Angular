@@ -12,9 +12,9 @@
         <div class="top_relatorio">
             <div class="top_relatorio_container">
                 <div>
-                    <input type="date">
+                    <input type="date" [(ngModel)]="dataInicio" >
                     <p>:</p>
-                    <input type="date">
+                    <input type="date"  [(ngModel)]="dataFim">
                     <img class="calendario" src="assets/calendario.png" alt="">
                 </div>
                 <div class="pesquisar">
@@ -32,125 +32,16 @@
                         <img src="assets/star.png" alt="">
                         <img src="assets/trash.png" alt="">
                     </div>
-
                 </div>
             </div>
         </div>
         <div class="relatorio">
-            <div class="button_relatorio">
+            <div class="button_relatorio" *ngFor="let relatorio of relatorios">
                 <div class="button_relatorio_container">
                     <input type="checkbox">
                     <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p class="arquivo">Relatorio-DestinosRanking-Agosto0250901.xls.</p>
-                    </div>
-                    <div class="divDots">
-                        <img src="assets/dots.png" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="button_relatorio">
-                <div class="button_relatorio_container">
-                    <input type="checkbox">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p class="arquivo">Relatorio-DestinosRanking-Agosto0250901.xls. </p>
-                    </div>
-                    <div class="divDots">
-                        <img src="assets/dots.png" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="button_relatorio">
-                <div class="button_relatorio_container">
-                    <input type="checkbox">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p class="arquivo">Relatorio-DestinosRanking-Agosto0250901.xls. </p>
-                    </div>
-                    <div class="divDots">
-                        <img src="assets/dots.png" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="button_relatorio">
-                <div class="button_relatorio_container">
-                    <input type="checkbox">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p class="arquivo">Relatorio-DestinosRanking-Agosto0250901.xls. </p>
-                    </div>
-                    <div class="divDots">
-                        <img src="assets/dots.png" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="button_relatorio">
-                <div class="button_relatorio_container">
-                    <input type="checkbox">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p class="arquivo">Relatorio-DestinosRanking-Agosto0250901.xls. </p>
-                    </div>
-                    <div class="divDots">
-                        <img src="assets/dots.png" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="button_relatorio">
-                <div class="button_relatorio_container">
-                    <input type="checkbox">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p class="arquivo">Relatorio-DestinosRanking-Agosto0250901.xls. </p>
-                    </div>
-                    <div class="divDots">
-                        <img src="assets/dots.png" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="button_relatorio">
-                <div class="button_relatorio_container">
-                    <input type="checkbox">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p class="arquivo">Relatorio-DestinosRanking-Agosto0250901.xls. </p>
-                    </div>
-                    <div class="divDots">
-                        <img src="assets/dots.png" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="button_relatorio">
-                <div class="button_relatorio_container">
-                    <input type="checkbox">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p class="arquivo">Relatorio-DestinosRanking-Agosto0250901.xls. </p>
-                    </div>
-                    <div class="divDots">
-                        <img src="assets/dots.png" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="button_relatorio">
-                <div class="button_relatorio_container">
-                    <input type="checkbox">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p class="arquivo">Relatorio-DestinosRanking-Agosto0250901.xls. </p>
-                    </div>
-                    <div class="divDots">
-                        <img src="assets/dots.png" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="button_relatorio">
-                <div class="button_relatorio_container">
-                    <input type="checkbox">
-                    <div>
-                        <p class="horario">02/09/2025 10:48</p>
-                        <p class="arquivo">Relatorio-DestinosRanking-Agosto0250901.xls. </p>
+                        <p class="horario">{{ relatorio.dtHoraCriacao | date:'dd/MM/yyyy HH:mm' }}</p>
+                        <p class="arquivo">{{ relatorio.nome }}</p>
                     </div>
                     <div class="divDots">
                         <img src="assets/dots.png" alt="">

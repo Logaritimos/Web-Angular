@@ -132,10 +132,13 @@ a {
 .alertas {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
-    padding-top: 8px;
+    padding-top: 10px;
     gap: 5px;
+      height: 440px;     
+  overflow-y: auto;  
+  overflow-x: hidden; 
 }
 
 .sinoAlerta{
@@ -150,3 +153,4 @@ a {
     height: 52%;
     padding: 0px;
 }
+
