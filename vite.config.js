@@ -1,11 +1,10 @@
 import { defineConfig } from 'vite';
-import angular from 'vite-plugin-angular';
+import angular from '@analogjs/vite-plugin-angular';
 
 export default defineConfig({
   plugins: [angular()],
   server: {
     port: 4200,
-    host: true,
-    allowedHosts: ['all'] // Aceita qualquer host
-  },
+    host: '0.0.0.0'
+  }
 });
