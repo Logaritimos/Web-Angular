@@ -18,21 +18,26 @@
                 <div>
                     <p>Início</p>
                     <input type="date" [(ngModel)]="dataInicio" (ngModelChange)="ListarAlertas(destino, dataInicio, dataFim)">
-                   
+                    <img src="assets/calendario.png" alt="">
                 </div>
                 <div>
-                    <p>Fim</p> <img src="assets/calendario.png" alt="">
+                   <p>Fim</p> 
                     <input type="date"  [(ngModel)]="dataFim" (ngModelChange)="ListarAlertas(destino, dataInicio, dataFim)">
                     <img src="assets/calendario.png" alt="">
                 </div>
                 <div>
-                    <select  [(ngModel)]="destino" name="" id="" (ngModelChange)="ListarAlertas(destino, dataInicio, dataFim)">
-                        <option value="">Geral</option>
-                        <option value="">Destino 1</option>
-                        <option value="">Destino 2</option>
-                        <option value="">Destino 3</option>
-                        <option value="">Destino 4</option>
-                    </select>
+                  <select [(ngModel)]="destino"
+        name="destino"
+        id="destino"
+        class="select_destino"
+        (ngModelChange)="ListarAlertas(destino, dataInicio, dataFim)">
+
+  <option value="">Geral</option>
+
+  <option *ngFor="let d of destinos" [value]="d">
+    {{ d }}
+  </option>
+</select>
                     <img src="assets/aviao.png" alt="">
                 </div>
                 <div class="sinoAlerta">

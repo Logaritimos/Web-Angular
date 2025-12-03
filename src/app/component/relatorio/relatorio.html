@@ -1,52 +1,180 @@
 <div class="relatorio_container">
-    <h1>Mensagens</h1>
-    <div class="relatorio_titulos">
+  <h1>Mensagens</h1>
+  <div class="relatorio_titulos">
+    <div>
+      <p (click)="AlterarEstados()" href="">Alertas</p>
+    </div>
+    <div class="ativo">Relatórios</div>
+  </div>
+  <div class="relatorio_zone">
+    <div class="top_relatorio">
+      <div class="top_relatorio_container">
         <div>
-            <p (click)="AlterarEstados()" href="">Alertas</p>
+          <input type="date" [(ngModel)]="dataInicio" (change)="buscarRelatorios()" />
+          <p>:</p>
+          <input type="date" [(ngModel)]="dataFim" (change)="buscarRelatorios()" />
+          <img class="calendario" src="assets/calendario.png" alt="" />
         </div>
-        <div class="ativo">
-            Relatórios
+        <div class="pesquisar">
+          <input
+            type="text"
+            [(ngModel)]="pesquisa"
+            (input)="aplicarFiltro()"
+            placeholder="Pesquisar..."
+          />
+          <div>
+            <img class="pesquisa_img" src="assets/pesquisa_img.png" alt="" />
+          </div>
         </div>
+        <div class="icones">
+          <li>
+            <img (click)="abrirModalCriacao()" class="download" src="assets/download.png" alt="" />
+          </li>
+          <div class="icones2">
+            <img src="assets/rename.png" alt="" />
+            <img (click)="favoritarSelecionados()" src="assets/star.png" alt="" />
+            <img (click)="excluirSelecionados()" src="assets/trash.png" alt="" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-backdrop" *ngIf="mostrarModalCriacao" (click)="fecharModalCriacao()">
+        <div class="modal" (click)="$event.stopPropagation()">
+          <h2>Download de relatórios</h2>
+          <div class="selectContainer">
+            <select [(ngModel)]="tipoPeriodo">
+              <option value="">Anual ou Mensal</option>
+              <option value="anual">Anual</option>
+              <option value="mensal">Mensal</option>
+            </select>
+            <select [(ngModel)]="anoSelecionado">
+              <option value="">Ano</option>
+          <option value="2019">2019</option>
+  <option value="2020">2020</option>
+  <option value="2021">2021</option>
+  <option value="2022">2022</option>
+            </select>
+            <select
+              [(ngModel)]="mesSelecionado"
+              [disabled]="tipoPeriodo === '' || tipoPeriodo === 'anual'"
+            >
+              <option value="">Mês</option>
+              <option *ngFor="let mes of meses" [value]="mes.valor">
+                {{ mes.nome }}
+              </option>
+            </select>
+            <input placeholder="Nome:" type="text"    [(ngModel)]="nomeArquivo" />
+          </div>
+          
+
+          <div class="modal-botoes">
+            <button (click)="fecharModalCriacao()">Cancelar</button>
+
+            <button (click)="CriarRelatorios()">Criar</button>
+          </div>
+        </div>
+      </div>
+      <!-- MODAL DE DETALHES (dados da tabela voo) -->
+<div
+  class="modal-backdrop"
+  *ngIf="mostrarModalRelatorio"
+  (click)="fecharModalRelatorio()"
+>
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2>Dados do voo</h2>
+
+    <div *ngIf="carregandoRelatorio">Carregando...</div>
+
+    <div *ngIf="!carregandoRelatorio && voos && voos.length">
+      <table class="tabela-voo">
+        <thead>
+          <tr>
+            <th>Estado</th>
+            <th>Mês</th>
+            <th>Ano</th>
+            <th>Qtd. Aeroportos</th>
+            <th>Voos Regulares</th>
+            <th>Voos Irregulares</th>
+            <th>Embarques</th>
+            <th>Desembarques</th>
+            <th>Voos Totais</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let v of voos">
+            <td>{{ v.estado }}</td>
+            <td>{{ v.mes }}</td>
+            <td>{{ v.ano }}</td>
+            <td>{{ v.qtdAeroportos }}</td>
+            <td>{{ v.numVoosRegulares }}</td>
+            <td>{{ v.numVoosIrregulares }}</td>
+            <td>{{ v.numEmbarques }}</td>
+            <td>{{ v.numDesembarques }}</td>
+            <td>{{ v.numVoosTotais }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="relatorio_zone">
-        <div class="top_relatorio">
-            <div class="top_relatorio_container">
-                <div>
-                    <input type="date" [(ngModel)]="dataInicio" >
-                    <p>:</p>
-                    <input type="date"  [(ngModel)]="dataFim">
-                    <img class="calendario" src="assets/calendario.png" alt="">
-                </div>
-                <div class="pesquisar">
-                    <input type="text" name="" id="">
-                    <div>
-                        <img class="pesquisa_img" src="assets/pesquisa_img.png" alt="">
-                    </div>
-                </div>
-                <div class="icones">
-                    <li>
-                        <img class="download" src="assets/download.png" alt="">
-                    </li>
-                    <div class="icones2">
-                        <img src="assets/rename.png" alt="">
-                        <img src="assets/star.png" alt="">
-                        <img src="assets/trash.png" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="relatorio">
-            <div class="button_relatorio" *ngFor="let relatorio of relatorios">
-                <div class="button_relatorio_container">
-                    <input type="checkbox">
-                    <div>
-                        <p class="horario">{{ relatorio.dtHoraCriacao | date:'dd/MM/yyyy HH:mm' }}</p>
-                        <p class="arquivo">{{ relatorio.nome }}</p>
-                    </div>
-                    <div class="divDots">
-                        <img src="assets/dots.png" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
+
+    <div *ngIf="!carregandoRelatorio && (!voos || voos.length === 0)">
+      Nenhum dado encontrado.
     </div>
+
+    <div class="modal-botoes">
+      <button (click)="fecharModalRelatorio()">Fechar</button>
+    </div>
+  </div>
+</div>
+    </div>
+
+    <div class="relatorio">
+      <div class="button_relatorio" *ngFor="let relatorio of relatoriosFiltrados; let i = index">
+        <div class="button_relatorio_container">
+          <input
+            type="checkbox"
+            [checked]="selecionados.includes(relatorio.idRelatorio)"
+            (change)="toggleSelecionado(relatorio, $event)"
+          />
+
+          <div class="ContainerCampos">
+            <div>
+              <p class="horario">{{ relatorio.dtHoraCriacao | date : 'dd/MM/yyyy HH:mm' }}</p>
+              <p
+  class="arquivo"
+  (click)="abrirModalRelatorio(relatorio)"
+>
+  {{ relatorio.nome }}
+</p>
+            </div>
+
+            <div class="divDots">
+              <div class="IconsContainer">
+                <img
+                  *ngIf="relatorio.favorito === 0"
+                  class="EstrelaStyle"
+                  src="assets/estrelaBranca.png"
+                  (click)="favoritar(relatorio)"
+                  alt=""
+                />
+
+                <img
+                  *ngIf="relatorio.favorito === 1"
+                  class="EstrelaStyle"
+                  src="assets/estrelaAmarela.png"
+                  (click)="favoritar(relatorio)"
+                  alt=""
+                />
+
+                <img src="assets/dots.png" (click)="toggleMenu(i, $event)" alt="" />
+              </div>
+
+              <div class="mini-modal" *ngIf="openedMenuIndex === i">
+                <button (click)="baixar(relatorio); $event.stopPropagation()">Baixar</button>
+                <button (click)="excluir(relatorio); $event.stopPropagation()">Excluir</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
