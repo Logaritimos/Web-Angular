@@ -10,241 +10,234 @@ import { HttpParams } from '@angular/common/http';
 @Component({
   selector: 'app-relatorio',
   standalone: true,
-imports: [FormsModule, CommonModule, HttpClientModule],
+  imports: [FormsModule, CommonModule, HttpClientModule],
   templateUrl: './relatorio.html',
-  styleUrl: './relatorio.css'
+  styleUrl: './relatorio.css',
 })
 export class Relatorio implements OnInit, OnDestroy {
   constructor(public estados: Estados, public http: HttpClient) {}
 
-  mesSelecionado: string = '';  
+  mesSelecionado: string = '';
 
   tipoPeriodo: string = '';
 
- 
-anoSelecionado: string = '';
-nomeArquivo: string = '';
+  anoSelecionado: string = '';
+  nomeArquivo: string = '';
 
-mostrarModalRelatorio: boolean = false;
-carregandoRelatorio: boolean = false;
-voos: any[] = [];
+  mostrarModalRelatorio: boolean = false;
+  carregandoRelatorio: boolean = false;
+  voos: any[] = [];
 
-
-meses = [
-  { valor: `Janeiro`, nome: 'Janeiro' },
-  { valor: 'Fevereiro', nome: 'Fevereiro' },
-  { valor: 'Março', nome: 'Março' },
-  { valor: 'Abril', nome: 'Abril' },
-  { valor: 'Maio', nome: 'Maio' },
-  { valor: 'Junho', nome: 'Junho' },
-  { valor: 'Julho', nome: 'Julho' },
-  { valor: 'Agosto', nome: 'Agosto' },
-  { valor: 'Setembro', nome: 'Setembro' },
-  { valor: 'Outubro', nome: 'Outubro' },
-  { valor: 'Novembro', nome: 'Novembro' },
-  { valor: 'Dezembro', nome: 'Dezembro' },
-];
+  meses = [
+    { valor: `Janeiro`, nome: 'Janeiro' },
+    { valor: 'Fevereiro', nome: 'Fevereiro' },
+    { valor: 'Março', nome: 'Março' },
+    { valor: 'Abril', nome: 'Abril' },
+    { valor: 'Maio', nome: 'Maio' },
+    { valor: 'Junho', nome: 'Junho' },
+    { valor: 'Julho', nome: 'Julho' },
+    { valor: 'Agosto', nome: 'Agosto' },
+    { valor: 'Setembro', nome: 'Setembro' },
+    { valor: 'Outubro', nome: 'Outubro' },
+    { valor: 'Novembro', nome: 'Novembro' },
+    { valor: 'Dezembro', nome: 'Dezembro' },
+  ];
 
   mostrarModalCriacao: boolean = false;
 
   abrirModalCriacao() {
-  this.mostrarModalCriacao = true;
-}
-
-fecharModalCriacao() {
-  this.mostrarModalCriacao = false;
-}
-
-  AlterarEstados() {
-    this.estados.Alterar();  
+    this.mostrarModalCriacao = true;
   }
 
-  selecionados: number[] = []; 
+  fecharModalCriacao() {
+    this.mostrarModalCriacao = false;
+  }
 
-  relatorios: any[] = []
+  AlterarEstados() {
+    this.estados.Alterar();
+  }
 
-    dataInicio: string = "";
-dataFim: string = "";
-destino: string = "";
+  selecionados: number[] = [];
 
- openedMenuIndex: number | null = null;
+  relatorios: any[] = [];
 
-pesquisa: string = '';
-relatoriosFiltrados: any[] = [];
+  dataInicio: string = '';
+  dataFim: string = '';
+  destino: string = '';
 
-buscarRelatorios() {
-  const params = new HttpParams()
-    .set('dataInicio', this.dataInicio || '')
-    .set('dataFim', this.dataFim || '')
-    .set('destino', this.destino || '');
+  openedMenuIndex: number | null = null;
 
-  this.http
-    .get<any>('http://localhost:3333/relatorios/ListarRelatorios', { params })
-    .subscribe((res) => {
-      this.relatorios = res.mensagem;
-      this.aplicarFiltro(); 
+  pesquisa: string = '';
+  relatoriosFiltrados: any[] = [];
+
+  buscarRelatorios() {
+    const fkEmpresa = sessionStorage.getItem('FK_EMPRESA');
+
+    let params = new HttpParams()
+      .set('dataInicio', this.dataInicio || '')
+      .set('dataFim', this.dataFim || '')
+      .set('destino', this.destino || '')
+      .set('fkEmpresa', fkEmpresa || '');
+
+    console.log(' Filtros enviados para ListarRelatorios:', {
+      destino: this.destino,
+      dataInicio: this.dataInicio,
+      dataFim: this.dataFim,
+      fkEmpresa,
     });
-}
 
+    this.http
+      .get<any>('http://98.95.225.112:3333/relatorios/ListarRelatorios', { params })
+      .subscribe((res) => {
+        this.relatorios = res.mensagem;
+        this.aplicarFiltro();
+      });
+  }
+  aplicarFiltro() {
+    const termo = (this.pesquisa || '').toLowerCase();
 
-aplicarFiltro() {
-  const termo = (this.pesquisa || '').toLowerCase();
-
-  this.relatoriosFiltrados = this.relatorios.filter((relatorio) => {
-    const nome = (relatorio.nome || '').toLowerCase();
-    const data = relatorio.dtHoraCriacao
-      ? new Date(relatorio.dtHoraCriacao).toLocaleString().toLowerCase()
-      : '';
-    return nome.includes(termo) || data.includes(termo);
-  });
-}
+    this.relatoriosFiltrados = this.relatorios.filter((relatorio) => {
+      const nome = (relatorio.nome || '').toLowerCase();
+      const data = relatorio.dtHoraCriacao
+        ? new Date(relatorio.dtHoraCriacao).toLocaleString().toLowerCase()
+        : '';
+      return nome.includes(termo) || data.includes(termo);
+    });
+  }
 
   ngOnInit(): void {
-  console.log('INICIANDO RELATORIOS');
+    console.log('INICIANDO RELATORIOS');
 
-  document.addEventListener('click', this.handleClickOutside);
+    document.addEventListener('click', this.handleClickOutside);
 
-  this.buscarRelatorios(); 
-}
+    this.buscarRelatorios();
+  }
 
-   ngOnDestroy(): void {
+  ngOnDestroy(): void {
     document.removeEventListener('click', this.handleClickOutside);
   }
 
-
-toggleMenu(index: number, event: MouseEvent) {
-  event.stopPropagation();
-  this.openedMenuIndex = this.openedMenuIndex === index ? null : index;
-}
-
-baixar(relatorio: any) {
-}
-
-favoritar(relatorio: any) {
-  const id = relatorio.idRelatorio; 
-
-  novoFavorito: String
-
-  if (relatorio.favorito === 1) {
-   const novoFavorito =  0; 
-  } else {
-    const novoFavorito = 1;
+  toggleMenu(index: number, event: MouseEvent) {
+    event.stopPropagation();
+    this.openedMenuIndex = this.openedMenuIndex === index ? null : index;
   }
 
-  const novoFavorito = relatorio.favorito === 1 ? 0 : 1;
+  baixar(relatorio: any) {}
 
-  this.http
-    .patch(`http://localhost:3333/relatorios/FavoritarRelatorios/${id}`, {
-      favorito: novoFavorito,
-    })
-    .subscribe({
-      next: (res) => {
-        relatorio.favorito = novoFavorito;
-        this.buscarRelatorios()
-      },
-      error: (err) => {
-        console.error('Erro ao favoritar relatório', err);
-      },
-    });
-}
-
-
-
-favoritarSelecionados() {
-  if (this.selecionados.length === 0) {
-    return; 
-  }
-
-  const relatoriosSelecionados = this.relatoriosFiltrados.filter(r =>
-    this.selecionados.includes(r.idRelatorio)
-  );
-
-  const existeNaoFavorito = relatoriosSelecionados.some(r => r.favorito === 0);
-
-  const novoFavorito = existeNaoFavorito ? 1 : 0;
-
-  relatoriosSelecionados.forEach(relatorio => {
+  favoritar(relatorio: any) {
     const id = relatorio.idRelatorio;
 
+    novoFavorito: String;
+
+    if (relatorio.favorito === 1) {
+      const novoFavorito = 0;
+    } else {
+      const novoFavorito = 1;
+    }
+
+    const novoFavorito = relatorio.favorito === 1 ? 0 : 1;
+
     this.http
-      .patch(`http://localhost:3333/relatorios/FavoritarRelatorios/${id}`, {
+      .patch(`http://98.95.225.112:3333/relatorios/FavoritarRelatorios/${id}`, {
         favorito: novoFavorito,
       })
       .subscribe({
-        next: () => {
+        next: (res) => {
           relatorio.favorito = novoFavorito;
-
-          const idx = this.relatorios.findIndex(r => r.idRelatorio === id);
-          if (idx !== -1) {
-            this.relatorios[idx].favorito = novoFavorito;
-          }
+          this.buscarRelatorios();
         },
         error: (err) => {
-          console.error('Erro ao favoritar relatório em lote', err);
+          console.error('Erro ao favoritar relatório', err);
         },
       });
-  });
-}
+  }
 
-excluir(relatorio: any) {
-  const id = relatorio.idRelatorio;
-  console.log(id)
+  favoritarSelecionados() {
+    if (this.selecionados.length === 0) {
+      return;
+    }
 
-  this.http
-    .delete(`http://localhost:3333/relatorios/DeletarRelatorios/${id}`)
-    .subscribe({
+    const relatoriosSelecionados = this.relatoriosFiltrados.filter((r) =>
+      this.selecionados.includes(r.idRelatorio)
+    );
+
+    const existeNaoFavorito = relatoriosSelecionados.some((r) => r.favorito === 0);
+
+    const novoFavorito = existeNaoFavorito ? 1 : 0;
+
+    relatoriosSelecionados.forEach((relatorio) => {
+      const id = relatorio.idRelatorio;
+
+      this.http
+        .patch(`http://98.95.225.112:3333/relatorios/FavoritarRelatorios/${id}`, {
+          favorito: novoFavorito,
+        })
+        .subscribe({
+          next: () => {
+            relatorio.favorito = novoFavorito;
+
+            const idx = this.relatorios.findIndex((r) => r.idRelatorio === id);
+            if (idx !== -1) {
+              this.relatorios[idx].favorito = novoFavorito;
+            }
+          },
+          error: (err) => {
+            console.error('Erro ao favoritar relatório em lote', err);
+          },
+        });
+    });
+  }
+
+  excluir(relatorio: any) {
+    const id = relatorio.idRelatorio;
+    console.log(id);
+
+    this.http.delete(`http://98.95.225.112:3333/relatorios/DeletarRelatorios/${id}`).subscribe({
       next: (res) => {
-       this.relatoriosFiltrados = this.relatoriosFiltrados.filter(r => r.id !== id);
-       this.buscarRelatorios()
-       
+        this.relatoriosFiltrados = this.relatoriosFiltrados.filter((r) => r.id !== id);
+        this.buscarRelatorios();
       },
       error: (err) => {
         console.error('Erro ao excluir relatório', err);
       },
     });
-}
-
-excluirSelecionados() {
-  if (this.selecionados.length === 0) {
-    return;
   }
 
-  const idsParaExcluir = [...this.selecionados];
+  excluirSelecionados() {
+    if (this.selecionados.length === 0) {
+      return;
+    }
 
-  idsParaExcluir.forEach(id => {
-    this.http
-      .delete(`http://localhost:3333/relatorios/DeletarRelatorios/${id}`)
-      .subscribe({
+    const idsParaExcluir = [...this.selecionados];
+
+    idsParaExcluir.forEach((id) => {
+      this.http.delete(`http://98.95.225.112:3333/relatorios/DeletarRelatorios/${id}`).subscribe({
         next: () => {
-          
-          this.relatorios = this.relatorios.filter(
-            r => r.idRelatorio !== id
-          );
-          this.relatoriosFiltrados = this.relatoriosFiltrados.filter(
-            r => r.idRelatorio !== id
-          );
+          this.relatorios = this.relatorios.filter((r) => r.idRelatorio !== id);
+          this.relatoriosFiltrados = this.relatoriosFiltrados.filter((r) => r.idRelatorio !== id);
 
-          this.selecionados = this.selecionados.filter(selId => selId !== id);
+          this.selecionados = this.selecionados.filter((selId) => selId !== id);
         },
         error: (err) => {
           console.error('Erro ao excluir relatório', err);
         },
       });
-  });
-}
+    });
+  }
 
-CriarRelatorios() {
-  const payload = {
-    ano: this.anoSelecionado,       
-    mes: this.mesSelecionado,         
-    nome: this.nomeArquivo?.trim() || '' 
-  };
+  CriarRelatorios() {
+    const fkEmpresa = sessionStorage.getItem('FK_EMPRESA');
 
-  console.log('Payload para criacao', payload);
+    const payload = {
+      ano: this.anoSelecionado,
+      mes: this.mesSelecionado,
+      nome: this.nomeArquivo?.trim() || '',
+      fkEmpresa: fkEmpresa || '', // se não tiver FK, backend trata como “não logado”
+    };
 
-  this.http
-    .post('http://localhost:3333/relatorios/CriarRelatorio', payload)
-    .subscribe({
+    console.log('Payload para criacao', payload);
+
+    this.http.post('http://98.95.225.112:3333/relatorios/CriarRelatorio', payload).subscribe({
       next: (res) => {
         console.log('criacao solicitado com sucesso', res);
         this.fecharModalCriacao();
@@ -254,39 +247,36 @@ CriarRelatorios() {
         console.error('Erro ao criacao de relatórios', err);
       },
     });
-}
+  }
 
   handleClickOutside = (event: MouseEvent) => {
     this.openedMenuIndex = null;
   };
 
-toggleSelecionado(relatorio: any, event: Event) {
-  const input = event.target as HTMLInputElement;
-  const id = relatorio.idRelatorio;
+  toggleSelecionado(relatorio: any, event: Event) {
+    const input = event.target as HTMLInputElement;
+    const id = relatorio.idRelatorio;
 
-  if (input.checked) {
-    if (!this.selecionados.includes(id)) {
-      this.selecionados.push(id);
+    if (input.checked) {
+      if (!this.selecionados.includes(id)) {
+        this.selecionados.push(id);
+      }
+    } else {
+      this.selecionados = this.selecionados.filter((selId) => selId !== id);
     }
-  } else {
-    this.selecionados = this.selecionados.filter(selId => selId !== id);
+
+    console.log('Selecionados agora:', this.selecionados);
   }
 
-  console.log('Selecionados agora:', this.selecionados);
-}
+  abrirModalRelatorio(relatorio: any) {
+    this.mostrarModalRelatorio = true;
+    this.carregandoRelatorio = true;
+    this.voos = [];
 
-abrirModalRelatorio(relatorio: any) {
-  this.mostrarModalRelatorio = true;
-  this.carregandoRelatorio = true;
-  this.voos = [];
+    const id = relatorio.idRelatorio;
 
-  const id = relatorio.idRelatorio;
-
-  this.http
-    .get<any>(`http://localhost:3333/relatorios/BuscarDadosVoo/${id}`)
-    .subscribe({
+    this.http.get<any>(`http://98.95.225.112:3333/relatorios/BuscarDadosVoo/${id}`).subscribe({
       next: (res) => {
-    
         this.voos = res.mensagem || res;
         this.carregandoRelatorio = false;
       },
@@ -295,10 +285,9 @@ abrirModalRelatorio(relatorio: any) {
         this.carregandoRelatorio = false;
       },
     });
-}
+  }
 
-fecharModalRelatorio() {
-  this.mostrarModalRelatorio = false;
-}
-  
+  fecharModalRelatorio() {
+    this.mostrarModalRelatorio = false;
+  }
 }

@@ -1,59 +1,63 @@
-
-
-
-
 <div class="alerta_container">
-    <h1>Mensagens</h1>
-    <div class="alerta_titulos">
-        <div class="ativo">
-            Alertas
+  <h1>Mensagens</h1>
+  <div class="alerta_titulos">
+    <div class="ativo">Alertas</div>
+    <div>
+      <a (click)="AlterarEstados()">Relatórios</a>
+    </div>
+  </div>
+  <div class="alerta_zone">
+    <div class="top_alert">
+      <div class="top_alert_container">
+        <div>
+          <p>Início</p>
+          <input
+            type="date"
+            [(ngModel)]="dataInicio"
+            (ngModelChange)="ListarAlertas(destino, dataInicio, dataFim)"
+          />
+          <img src="assets/calendario.png" alt="" />
         </div>
         <div>
-            <a (click)="AlterarEstados()" >Relatórios</a>
+          <p>Fim</p>
+          <input
+            type="date"
+            [(ngModel)]="dataFim"
+            (ngModelChange)="ListarAlertas(destino, dataInicio, dataFim)"
+          />
+          <img src="assets/calendario.png" alt="" />
         </div>
+        <div>
+          <select
+            [(ngModel)]="destino"
+            name="destino"
+            id="destino"
+            class="select_destino"
+            (ngModelChange)="ListarAlertas(destino, dataInicio, dataFim)"
+          >
+            <option value="">Geral</option>
+
+            <option *ngFor="let d of destinos" [value]="d">
+              {{ d }}
+            </option>
+          </select>
+          <img src="assets/aviao.png" alt="" />
+        </div>
+        <div class="sinoAlerta">
+          <img src="assets/sino.png" alt="" />
+        </div>
+      </div>
     </div>
-    <div class="alerta_zone">
-        <div class="top_alert">
-            <div class="top_alert_container">
-                <div>
-                    <p>Início</p>
-                    <input type="date" [(ngModel)]="dataInicio" (ngModelChange)="ListarAlertas(destino, dataInicio, dataFim)">
-                    <img src="assets/calendario.png" alt="">
-                </div>
-                <div>
-                   <p>Fim</p> 
-                    <input type="date"  [(ngModel)]="dataFim" (ngModelChange)="ListarAlertas(destino, dataInicio, dataFim)">
-                    <img src="assets/calendario.png" alt="">
-                </div>
-                <div>
-                  <select [(ngModel)]="destino"
-        name="destino"
-        id="destino"
-        class="select_destino"
-        (ngModelChange)="ListarAlertas(destino, dataInicio, dataFim)">
-
-  <option value="">Geral</option>
-
-  <option *ngFor="let d of destinos" [value]="d">
-    {{ d }}
-  </option>
-</select>
-                    <img src="assets/aviao.png" alt="">
-                </div>
-                <div class="sinoAlerta">
-                    <img src="assets/sino.png" alt="">
-                </div>
-            </div>
+    <div class="alertas">
+      <div class="button_alert" *ngFor="let alerta of alertas">
+        <div class="button_alert_container">
+          <img src="assets/alerta.png" alt="" />
+          <div>
+            <p class="horario">{{ alerta.dtHora | date : 'dd/MM/yyyy HH:mm' }}</p>
+            <p>{{ alerta.descricao }}</p>
+          </div>
         </div>
-        <div class="alertas">
-            <div class="button_alert" *ngFor="let alerta of alertas">
-                <div class="button_alert_container">
-                    <img src="assets/alerta.png" alt="">
-                    <div>
-                        <p class="horario">{{ alerta.dtHora | date:'dd/MM/yyyy HH:mm' }}</p>
-                        <p>{{ alerta.descricao }}</p>
-                    </div>
-                </div>
-             </div> 
-  
+      </div>
+    </div>
+  </div>
 </div>

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class Estados {
-  public estado: string = 'ativo';
+  public estado: string = 'inativo';
 
   Alterar() {
      if (this.estado === 'ativo') {
