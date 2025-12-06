@@ -17,6 +17,10 @@ import { HttpParams } from '@angular/common/http';
 export class Relatorio implements OnInit, OnDestroy {
   constructor(public estados: Estados, public http: HttpClient) {}
 
+  mostrarModalRenomear: boolean = false;
+  novoNomeRelatorio: string = '';
+  relatorioSelecionadoParaRenomear: any = null;
+
   mesSelecionado: string = '';
 
   tipoPeriodo: string = '';
@@ -87,7 +91,7 @@ export class Relatorio implements OnInit, OnDestroy {
     });
 
     this.http
-      .get<any>('http://98.95.225.112:3333/relatorios/ListarRelatorios', { params })
+      .get<any>('http://localhost:3333/relatorios/ListarRelatorios', { params })
       .subscribe((res) => {
         this.relatorios = res.mensagem;
         this.aplicarFiltro();
@@ -138,7 +142,7 @@ export class Relatorio implements OnInit, OnDestroy {
     const novoFavorito = relatorio.favorito === 1 ? 0 : 1;
 
     this.http
-      .patch(`http://98.95.225.112:3333/relatorios/FavoritarRelatorios/${id}`, {
+      .patch(`http://localhost:3333/relatorios/FavoritarRelatorios/${id}`, {
         favorito: novoFavorito,
       })
       .subscribe({
@@ -169,7 +173,7 @@ export class Relatorio implements OnInit, OnDestroy {
       const id = relatorio.idRelatorio;
 
       this.http
-        .patch(`http://98.95.225.112:3333/relatorios/FavoritarRelatorios/${id}`, {
+        .patch(`http://localhost:3333/relatorios/FavoritarRelatorios/${id}`, {
           favorito: novoFavorito,
         })
         .subscribe({
@@ -192,7 +196,7 @@ export class Relatorio implements OnInit, OnDestroy {
     const id = relatorio.idRelatorio;
     console.log(id);
 
-    this.http.delete(`http://98.95.225.112:3333/relatorios/DeletarRelatorios/${id}`).subscribe({
+    this.http.delete(`http://localhost:3333/relatorios/DeletarRelatorios/${id}`).subscribe({
       next: (res) => {
         this.relatoriosFiltrados = this.relatoriosFiltrados.filter((r) => r.id !== id);
         this.buscarRelatorios();
@@ -211,7 +215,7 @@ export class Relatorio implements OnInit, OnDestroy {
     const idsParaExcluir = [...this.selecionados];
 
     idsParaExcluir.forEach((id) => {
-      this.http.delete(`http://98.95.225.112:3333/relatorios/DeletarRelatorios/${id}`).subscribe({
+      this.http.delete(`http://localhost:3333/relatorios/DeletarRelatorios/${id}`).subscribe({
         next: () => {
           this.relatorios = this.relatorios.filter((r) => r.idRelatorio !== id);
           this.relatoriosFiltrados = this.relatoriosFiltrados.filter((r) => r.idRelatorio !== id);
@@ -232,12 +236,12 @@ export class Relatorio implements OnInit, OnDestroy {
       ano: this.anoSelecionado,
       mes: this.mesSelecionado,
       nome: this.nomeArquivo?.trim() || '',
-      fkEmpresa: fkEmpresa || '', // se não tiver FK, backend trata como “não logado”
+      fkEmpresa: fkEmpresa || '',
     };
 
     console.log('Payload para criacao', payload);
 
-    this.http.post('http://98.95.225.112:3333/relatorios/CriarRelatorio', payload).subscribe({
+    this.http.post('http://localhost:3333/relatorios/CriarRelatorio', payload).subscribe({
       next: (res) => {
         console.log('criacao solicitado com sucesso', res);
         this.fecharModalCriacao();
@@ -275,7 +279,7 @@ export class Relatorio implements OnInit, OnDestroy {
 
     const id = relatorio.idRelatorio;
 
-    this.http.get<any>(`http://98.95.225.112:3333/relatorios/BuscarDadosVoo/${id}`).subscribe({
+    this.http.get<any>(`http://localhost:3333/relatorios/BuscarDadosVoo/${id}`).subscribe({
       next: (res) => {
         this.voos = res.mensagem || res;
         this.carregandoRelatorio = false;
@@ -289,5 +293,55 @@ export class Relatorio implements OnInit, OnDestroy {
 
   fecharModalRelatorio() {
     this.mostrarModalRelatorio = false;
+  }
+
+  abrirModalRenomear(relatorio: any) {
+    this.relatorioSelecionadoParaRenomear = relatorio;
+    this.novoNomeRelatorio = relatorio.nome || '';
+    this.mostrarModalRenomear = true;
+  }
+
+  fecharModalRenomear() {
+    this.mostrarModalRenomear = false;
+    this.novoNomeRelatorio = '';
+    this.relatorioSelecionadoParaRenomear = null;
+  }
+
+  confirmarRenomear() {
+    if (!this.relatorioSelecionadoParaRenomear) {
+      return;
+    }
+
+    const id = this.relatorioSelecionadoParaRenomear.idRelatorio;
+    const NovoNome = (this.novoNomeRelatorio || '').trim();
+
+    if (!NovoNome) {
+      return;
+    }
+
+    this.http
+      .patch(`http://localhost:3333/relatorios/RenomearRelatorio/${id}`, {
+        nome: NovoNome,
+      })
+      .subscribe({
+        next: (res) => {
+          this.relatorioSelecionadoParaRenomear.nome = NovoNome;
+
+          const idx = this.relatorios.findIndex((r) => r.idRelatorio === id);
+          if (idx !== -1) {
+            this.relatorios[idx].nome = NovoNome;
+          }
+
+          const idxFiltrado = this.relatoriosFiltrados.findIndex((r) => r.idRelatorio === id);
+          if (idxFiltrado !== -1) {
+            this.relatoriosFiltrados[idxFiltrado].nome = NovoNome;
+          }
+
+          this.fecharModalRenomear();
+        },
+        error: (err) => {
+          console.error('Erro ao renomear relatório', err);
+        },
+      });
   }
 }

@@ -21,7 +21,10 @@ export class Alerta implements OnInit {
   dataInicio: string = '';
   dataFim: string = '';
   destino: string = '';
+  destinosBase: string[] = [];
   destinos: string[] = [];
+
+  loadingAlertas = false;
 
   AlterarEstados() {
     this.estados.Alterar();
@@ -42,14 +45,18 @@ export class Alerta implements OnInit {
     }
 
     this.dadosDoStorage = sessionStorage.getItem('ID_USUARIO');
-
     console.log('AQUI DEVERIA ESTAR O SESSION ' + this.dadosDoStorage);
+
+    this.loadingAlertas = true;
 
     this.GerarAlertas().subscribe({
       next: () => {
-        this.ListarAlertas(this.destino, this.dataInicio, this.dataFim);
+        this.ListarAlertasInicial();
       },
-      error: (err) => console.error('Erro ao gerar alertas', err),
+      error: (err) => {
+        console.error('Erro ao gerar alertas', err);
+        this.loadingAlertas = false;
+      },
     });
   }
 
@@ -57,20 +64,50 @@ export class Alerta implements OnInit {
     const fkEmpresa = sessionStorage.getItem('FK_EMPRESA');
     console.log('FK_EMPRESA ENVIADA PARA O BACK:', fkEmpresa);
 
-    return this.http.get<any[]>('http://98.95.225.112:3333/alertas/GerarAlertas', {
+    return this.http.get<any[]>('http://localhost:3333/alertas/GerarAlertas', {
       params: {
         fkEmpresa: fkEmpresa || '',
       },
     });
   }
 
+  private ListarAlertasInicial() {
+    const fkEmpresa = sessionStorage.getItem('FK_EMPRESA');
+
+    this.http
+      .get<any>('http://localhost:3333/alertas/ListarAlertas', {
+        params: {
+          destino: '',
+          dataInicio: '',
+          dataFim: '',
+          fkEmpresa: fkEmpresa || '',
+        },
+      })
+      .subscribe({
+        next: (res) => {
+          this.alertas = res.mensagem || [];
+          console.log('Alertas iniciais:', this.alertas);
+
+          this.preencherDestinosAPartirDasDescricoes(this.alertas);
+
+          this.loadingAlertas = false;
+        },
+        error: (err) => {
+          console.error('Erro ao listar alertas iniciais', err);
+          this.loadingAlertas = false;
+        },
+      });
+  }
+
   ListarAlertas(destino?: string, dataInicio?: string, dataFim?: string) {
     const fkEmpresa = sessionStorage.getItem('FK_EMPRESA');
 
-    console.log('🔍 FILTROS ENVIADOS:', { destino, dataInicio, dataFim, fkEmpresa });
+    console.log('FILTROS ENVIADOS:', { destino, dataInicio, dataFim, fkEmpresa });
+
+    this.loadingAlertas = true;
 
     this.http
-      .get<any>('http://98.95.225.112:3333/alertas/ListarAlertas', {
+      .get<any>('http://localhost:3333/alertas/ListarAlertas', {
         params: {
           destino: destino || '',
           dataInicio: dataInicio || '',
@@ -78,11 +115,16 @@ export class Alerta implements OnInit {
           fkEmpresa: fkEmpresa || '',
         },
       })
-      .subscribe((res) => {
-        this.alertas = res.mensagem;
-        console.log(this.alertas);
-
-        this.preencherDestinosAPartirDasDescricoes(this.alertas);
+      .subscribe({
+        next: (res) => {
+          this.alertas = res.mensagem || [];
+          console.log('Alertas filtrados:', this.alertas);
+          this.loadingAlertas = false;
+        },
+        error: (err) => {
+          console.error('Erro ao listar alertas filtrados', err);
+          this.loadingAlertas = false;
+        },
       });
   }
 
@@ -91,7 +133,6 @@ export class Alerta implements OnInit {
 
     alertas.forEach((alerta) => {
       const descricao: string = alerta.descricao || '';
-
       const match = descricao.match(/estado\s+d[eo]\s+([A-Z]{2})/i);
 
       if (match && match[1]) {
@@ -100,7 +141,9 @@ export class Alerta implements OnInit {
       }
     });
 
-    this.destinos = Array.from(estadosSet).sort();
+    this.destinosBase = Array.from(estadosSet).sort();
+    this.destinos = [...this.destinosBase];
+
     console.log('Destinos extraídos:', this.destinos);
   }
 }

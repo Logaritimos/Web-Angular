@@ -6,7 +6,9 @@
       <a (click)="AlterarEstados()">Relatórios</a>
     </div>
   </div>
-  <div class="alerta_zone">
+
+  <!-- contêiner base do overlay -->
+  <div class="alerta_zone alerta_zone--with-overlay">
     <div class="top_alert">
       <div class="top_alert_container">
         <div>
@@ -48,16 +50,26 @@
         </div>
       </div>
     </div>
+
+    <!-- lista continua visível o tempo todo -->
     <div class="alertas">
       <div class="button_alert" *ngFor="let alerta of alertas">
         <div class="button_alert_container">
           <img src="assets/alerta.png" alt="" />
           <div>
-            <p class="horario">{{ alerta.dtHora | date : 'dd/MM/yyyy HH:mm' }}</p>
+            <p class="horario">
+              {{ alerta.dtHora | date : 'dd/MM/yyyy HH:mm' }}
+            </p>
             <p>{{ alerta.descricao }}</p>
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- overlay por cima de TUDO, bloqueando clique e mostrando spinner -->
+    <div class="alertas-overlay" *ngIf="loadingAlertas">
+      <div class="spinner"></div>
+      <span>Gerando alertas, aguarde...</span>
     </div>
   </div>
 </div>

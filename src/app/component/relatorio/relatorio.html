@@ -31,7 +31,6 @@
             <img (click)="abrirModalCriacao()" class="download" src="assets/more.png" alt="" />
           </li>
           <div class="icones2">
-            <img src="assets/rename.png" alt="" />
             <img (click)="favoritarSelecionados()" src="assets/star.png" alt="" />
             <img (click)="excluirSelecionados()" src="assets/trash.png" alt="" />
           </div>
@@ -39,7 +38,7 @@
       </div>
       <div class="modal-backdrop" *ngIf="mostrarModalCriacao" (click)="fecharModalCriacao()">
         <div class="modal" (click)="$event.stopPropagation()">
-          <h2>Download de relatórios</h2>
+          <h2>Criar relatórios</h2>
           <div class="selectContainer">
             <select [(ngModel)]="tipoPeriodo">
               <option value="">Anual ou Mensal</option>
@@ -48,10 +47,9 @@
             </select>
             <select [(ngModel)]="anoSelecionado">
               <option value="">Ano</option>
-          <option value="2019">2019</option>
-  <option value="2020">2020</option>
-  <option value="2021">2021</option>
-  <option value="2022">2022</option>
+              <option value="2019">2019</option>
+              <option value="2020">2020</option>
+              <option value="2021">2021</option>
             </select>
             <select
               [(ngModel)]="mesSelecionado"
@@ -62,9 +60,8 @@
                 {{ mes.nome }}
               </option>
             </select>
-            <input placeholder="Nome:" type="text"    [(ngModel)]="nomeArquivo" />
+            <input placeholder="Nome:" type="text" [(ngModel)]="nomeArquivo" />
           </div>
-          
 
           <div class="modal-botoes">
             <button (click)="fecharModalCriacao()">Cancelar</button>
@@ -73,58 +70,81 @@
           </div>
         </div>
       </div>
-    
-<div
+
+      <div class="modal-backdrop" *ngIf="mostrarModalRelatorio" (click)="fecharModalRelatorio()">
+        <div class="modal" (click)="$event.stopPropagation()">
+          <h2>Dados do voo</h2>
+
+          <div *ngIf="carregandoRelatorio">Carregando...</div>
+
+          <div *ngIf="!carregandoRelatorio && voos && voos.length">
+            <table class="tabela-voo">
+              <thead>
+                <tr>
+                  <th>Estado</th>
+                  <th>Mês</th>
+                  <th>Ano</th>
+                  <th>Qtd. Aeroportos</th>
+                  <th>Voos Regulares</th>
+                  <th>Voos Irregulares</th>
+                  <th>Embarques</th>
+                  <th>Desembarques</th>
+                  <th>Voos Totais</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let v of voos">
+                  <td>{{ v.estado }}</td>
+                  <td>{{ v.mes }}</td>
+                  <td>{{ v.ano }}</td>
+                  <td>{{ v.qtdAeroportos }}</td>
+                  <td>{{ v.numVoosRegulares }}</td>
+                  <td>{{ v.numVoosIrregulares }}</td>
+                  <td>{{ v.numEmbarques }}</td>
+                  <td>{{ v.numDesembarques }}</td>
+                  <td>{{ v.numVoosTotais }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div *ngIf="!carregandoRelatorio && (!voos || voos.length === 0)">
+            Nenhum dado encontrado.
+          </div>
+
+          <div class="modal-botoes">
+            <button (click)="fecharModalRelatorio()">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
   class="modal-backdrop"
-  *ngIf="mostrarModalRelatorio"
-  (click)="fecharModalRelatorio()"
+  *ngIf="mostrarModalRenomear"
+  (click)="fecharModalRenomear()"
 >
   <div class="modal" (click)="$event.stopPropagation()">
-    <h2>Dados do voo</h2>
+    <h2>Renomear relatório</h2>
 
-    <div *ngIf="carregandoRelatorio">Carregando...</div>
-
-    <div *ngIf="!carregandoRelatorio && voos && voos.length">
-      <table class="tabela-voo">
-        <thead>
-          <tr>
-            <th>Estado</th>
-            <th>Mês</th>
-            <th>Ano</th>
-            <th>Qtd. Aeroportos</th>
-            <th>Voos Regulares</th>
-            <th>Voos Irregulares</th>
-            <th>Embarques</th>
-            <th>Desembarques</th>
-            <th>Voos Totais</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let v of voos">
-            <td>{{ v.estado }}</td>
-            <td>{{ v.mes }}</td>
-            <td>{{ v.ano }}</td>
-            <td>{{ v.qtdAeroportos }}</td>
-            <td>{{ v.numVoosRegulares }}</td>
-            <td>{{ v.numVoosIrregulares }}</td>
-            <td>{{ v.numEmbarques }}</td>
-            <td>{{ v.numDesembarques }}</td>
-            <td>{{ v.numVoosTotais }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div *ngIf="!carregandoRelatorio && (!voos || voos.length === 0)">
-      Nenhum dado encontrado.
+    <div class="selectContainer">
+      <input
+        type="text"
+        placeholder="Novo nome"
+        [(ngModel)]="novoNomeRelatorio"
+      />
     </div>
 
     <div class="modal-botoes">
-      <button (click)="fecharModalRelatorio()">Fechar</button>
+      <button (click)="fecharModalRenomear()" class="btn-cancelar">
+        Cancelar
+      </button>
+
+      <button (click)="confirmarRenomear()" class="btn-criar">
+        Renomear
+      </button>
     </div>
   </div>
 </div>
-    </div>
 
     <div class="relatorio">
       <div class="button_relatorio" *ngFor="let relatorio of relatoriosFiltrados; let i = index">
@@ -138,12 +158,9 @@
           <div class="ContainerCampos">
             <div>
               <p class="horario">{{ relatorio.dtHoraCriacao | date : 'dd/MM/yyyy HH:mm' }}</p>
-              <p
-  class="arquivo"
-  (click)="abrirModalRelatorio(relatorio)"
->
-  {{ relatorio.nome }}
-</p>
+              <p class="arquivo" (click)="abrirModalRelatorio(relatorio)">
+                {{ relatorio.nome }}
+              </p>
             </div>
 
             <div class="divDots">
@@ -168,7 +185,7 @@
               </div>
 
               <div class="mini-modal" *ngIf="openedMenuIndex === i">
-                <button (click)="baixar(relatorio); $event.stopPropagation()">Baixar</button>
+                  <button (click)="abrirModalRenomear(relatorio); $event.stopPropagation()">Renomear</button>
                 <button (click)="excluir(relatorio); $event.stopPropagation()">Excluir</button>
               </div>
             </div>

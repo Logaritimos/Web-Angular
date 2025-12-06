@@ -248,7 +248,6 @@ a {
 .icones2 img {
     cursor: pointer;
 }
-
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -257,20 +256,85 @@ a {
   align-items: center;
   justify-content: center;
   z-index: 999;
-  flex-direction: column;
 }
 
 .modal {
-  background: #fff;
-  padding: 20px 24px;
-  border-radius: 8px;
+  background: #ffffff;
+  padding: 24px 28px;
+  border-radius: 10px;
   min-width: 320px;
-  max-width: 90vw;
+  max-width: 480px;
+  width: 90vw;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+}
+
+.modal h2 {
+  margin: 0 0 16px 0;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
 }
 
 .selectContainer {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.selectContainer select,
+.selectContainer input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.selectContainer select:focus,
+.selectContainer input:focus {
+  border-color: #3498db;
+}
+
+.selectContainer select[disabled] {
+  background-color: #f3f3f3;
+  cursor: not-allowed;
+}
+
+.modal-botoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.modal-botoes button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.modal-botoes .btn-cancelar {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.modal-botoes .btn-criar {
+  background: #3498db;
+  color: #fff;
+}
+
+.modal-botoes .btn-cancelar:hover {
+  background: #d0d0d0;
+}
+
+.modal-botoes .btn-criar:hover {
+  background: #2980b9;
 }
 
 .tabela-voo {
@@ -298,4 +362,14 @@ a {
 
 .tabela-voo tbody tr:hover {
   background-color: #eef5ff; 
+}
+
+.selectContainer input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
 }
