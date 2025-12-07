@@ -122,9 +122,8 @@ a {
 
 .pesquisar input {
     width: 310px;
-    height: 25px;
+    height: 38px;
     border-radius: 15px;
-    margin-top: 8px;
 }
 
 .icones {
@@ -178,8 +177,8 @@ a {
 
 .pesquisa_img {
     position: absolute;
-    right: 8px;
-    bottom: 6px;
+    right: 11px;
+    bottom: 11px;
     width: 20px;
     height: 20px;
 }
@@ -240,12 +239,12 @@ a {
 }
 
 .EstrelaStyle {
-    width: 35px !important;
+    width: 30px !important;
     height: 25px !important;
     
 }
 
-.icones2 img {
+.icones2 img, .arquivo {
     cursor: pointer;
 }
 .modal-backdrop {
@@ -264,6 +263,17 @@ a {
   border-radius: 10px;
   min-width: 320px;
   max-width: 480px;
+  width: 90vw;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+}
+
+.modal_Dados {
+    background: #ffffff;
+  padding: 24px 28px;
+  border-radius: 10px;
+  min-width: 320px;
+  max-width: 980px;
   width: 90vw;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   box-sizing: border-box;
@@ -325,7 +335,7 @@ a {
 }
 
 .modal-botoes .btn-criar {
-  background: #3498db;
+  background: #002231;
   color: #fff;
 }
 
@@ -334,9 +344,15 @@ a {
 }
 
 .modal-botoes .btn-criar:hover {
-  background: #2980b9;
+  background: #000f16;
+}
+.tabela-voo-container {
+  max-height: 70vh;       /* ou 400px, ajuste como preferir */
+  overflow-y: auto;       /* adiciona scroll vertical */
+  overflow-x: auto;       /* opcional: scroll horizontal se precisar */
 }
 
+/* seu CSS atual da tabela */
 .tabela-voo {
   width: 100%;
   border-collapse: collapse; 
@@ -373,3 +389,9 @@ a {
   box-sizing: border-box;
   outline: none;
 }
+
+.icones li {
+    cursor: pointer;
+}
+
+

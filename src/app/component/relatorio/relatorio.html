@@ -15,20 +15,18 @@
           <input type="date" [(ngModel)]="dataFim" (change)="buscarRelatorios()" />
           <img class="calendario" src="assets/calendario.png" alt="" />
         </div>
-        <div class="pesquisar">
-          <input
-            type="text"
-            [(ngModel)]="pesquisa"
-            (input)="aplicarFiltro()"
-            placeholder="Pesquisar..."
-          />
-          <div>
-            <img class="pesquisa_img" src="assets/pesquisa_img.png" alt="" />
-          </div>
-        </div>
+       <div class="pesquisar">
+  <img class="pesquisa_img" src="assets/pesquisa_img.png" alt="Pesquisar" />
+  <input
+    type="text"
+    [(ngModel)]="pesquisa"
+    (input)="aplicarFiltro()"
+    placeholder="Pesquisar..."
+  />
+</div>
         <div class="icones">
-          <li>
-            <img (click)="abrirModalCriacao()" class="download" src="assets/more.png" alt="" />
+          <li  (click)="abrirModalCriacao()">
+            <img class="download" src="assets/more.png" alt="" />
           </li>
           <div class="icones2">
             <img (click)="favoritarSelecionados()" src="assets/star.png" alt="" />
@@ -72,41 +70,41 @@
       </div>
 
       <div class="modal-backdrop" *ngIf="mostrarModalRelatorio" (click)="fecharModalRelatorio()">
-        <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal_Dados" (click)="$event.stopPropagation()">
           <h2>Dados do voo</h2>
 
           <div *ngIf="carregandoRelatorio">Carregando...</div>
 
-          <div *ngIf="!carregandoRelatorio && voos && voos.length">
-            <table class="tabela-voo">
-              <thead>
-                <tr>
-                  <th>Estado</th>
-                  <th>Mês</th>
-                  <th>Ano</th>
-                  <th>Qtd. Aeroportos</th>
-                  <th>Voos Regulares</th>
-                  <th>Voos Irregulares</th>
-                  <th>Embarques</th>
-                  <th>Desembarques</th>
-                  <th>Voos Totais</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let v of voos">
-                  <td>{{ v.estado }}</td>
-                  <td>{{ v.mes }}</td>
-                  <td>{{ v.ano }}</td>
-                  <td>{{ v.qtdAeroportos }}</td>
-                  <td>{{ v.numVoosRegulares }}</td>
-                  <td>{{ v.numVoosIrregulares }}</td>
-                  <td>{{ v.numEmbarques }}</td>
-                  <td>{{ v.numDesembarques }}</td>
-                  <td>{{ v.numVoosTotais }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+         <div *ngIf="!carregandoRelatorio && voos && voos.length" class="tabela-voo-container">
+  <table class="tabela-voo">
+    <thead>
+      <tr>
+        <th>Estado</th>
+        <th>Mês</th>
+        <th>Ano</th>
+        <th>Qtd. Aeroportos</th>
+        <th>Voos Regulares</th>
+        <th>Voos Irregulares</th>
+        <th>Embarques</th>
+        <th>Desembarques</th>
+        <th>Voos Totais</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let v of voos">
+        <td>{{ v.estado }}</td>
+        <td>{{ v.mes }}</td>
+        <td>{{ v.ano }}</td>
+        <td>{{ v.qtdAeroportos }}</td>
+        <td>{{ v.numVoosRegulares }}</td>
+        <td>{{ v.numVoosIrregulares }}</td>
+        <td>{{ v.numEmbarques }}</td>
+        <td>{{ v.numDesembarques }}</td>
+        <td>{{ v.numVoosTotais }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
           <div *ngIf="!carregandoRelatorio && (!voos || voos.length === 0)">
             Nenhum dado encontrado.
