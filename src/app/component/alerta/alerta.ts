@@ -64,7 +64,7 @@ export class Alerta implements OnInit {
     const fkEmpresa = sessionStorage.getItem('FK_EMPRESA');
     console.log('FK_EMPRESA ENVIADA PARA O BACK:', fkEmpresa);
 
-    return this.http.get<any[]>('http://localhost:3333/alertas/GerarAlertas', {
+    return this.http.get<any[]>('http://98.95.225.112:3333/alertas/GerarAlertas', {
       params: {
         fkEmpresa: fkEmpresa || '',
       },
@@ -75,7 +75,7 @@ export class Alerta implements OnInit {
     const fkEmpresa = sessionStorage.getItem('FK_EMPRESA');
 
     this.http
-      .get<any>('http://localhost:3333/alertas/ListarAlertas', {
+      .get<any>('http://98.95.225.112:3333/alertas/ListarAlertas', {
         params: {
           destino: '',
           dataInicio: '',
@@ -107,7 +107,7 @@ export class Alerta implements OnInit {
     this.loadingAlertas = true;
 
     this.http
-      .get<any>('http://localhost:3333/alertas/ListarAlertas', {
+      .get<any>('http://98.95.225.112:3333/alertas/ListarAlertas', {
         params: {
           destino: destino || '',
           dataInicio: dataInicio || '',

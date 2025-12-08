@@ -347,12 +347,11 @@ a {
   background: #000f16;
 }
 .tabela-voo-container {
-  max-height: 70vh;       /* ou 400px, ajuste como preferir */
-  overflow-y: auto;       /* adiciona scroll vertical */
-  overflow-x: auto;       /* opcional: scroll horizontal se precisar */
+  max-height: 70vh;      
+  overflow-y: auto;      
+  overflow-x: auto;     
 }
 
-/* seu CSS atual da tabela */
 .tabela-voo {
   width: 100%;
   border-collapse: collapse; 
